@@ -88,13 +88,16 @@ int main(void)
         {
             for(int i = 0; i < NUM_PLAYERS; i++)
             {
-                printf("%s's Turn\nPlease choose from the following questions\n(hint: first enter category and hit enter, then enter the dollar amount and hit enter):\n\n", players[i].name);
-                
                 display_categories();
                 
                 printf("\n");
-                scanf("%s", category);
-                scanf("%d", &value);
+                do
+                {
+                    printf("%s's Turn\nPlease choose from the following questions\n(hint: first enter category and hit enter, then enter the dollar amount and hit enter):\n\n", players[i].name);
+                    scanf("%s", category);
+                    scanf("%d", &value);
+                }
+                while(strcmp(category, "programming") != 0 && strcmp(category, "algorithms") != 0 && strcmp(category, "databases") != 0 && value < 0 && value > 1000);
                 printf("You have chosen: %s %d.\n", category, value);
                 
                 if(already_answered(category,value))
@@ -102,12 +105,12 @@ int main(void)
                     printf("Question has already been answered. Please choose another question\n");
                     i--;
                 }
-                else if(true)
+                else
                 {
                     display_question(category, value);
-                    scanf("%s", response);
-                    
+                    scanf("%s", response);                    
                     correct = valid_answer(category, value, response);
+
                     if(correct)
                     {
                         printf("Correct! You may now choose another question.\n\n");
@@ -117,8 +120,10 @@ int main(void)
                     else{
                         printf("Unfortunately, that is incorrect, or you forgot to say \"What is/Who is\".\n\n");
                     }
+
                     questions_left--;
-                    if(questions_left<=0)
+
+                    if(questions_left <= 0)
                     {
                         game_state = 0;
                     }
