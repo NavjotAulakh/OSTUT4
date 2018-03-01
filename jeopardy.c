@@ -79,11 +79,11 @@ int main(int argc, char *argv[])
         int questions_left = sizeof(questions);
         bool correct;
         char *category;  
-        int *value = 0;
-        char response[BUFFER_LEN] = {0};
+        int value = 0;
+        char *response;
         
         category = (char *) calloc(BUFFER_LEN, sizeof(char));
-        
+        response = (char *) calloc(BUFFER_LEN, sizeof(char));
         while(questions_left > 0)
         {
             for(int i = 0; i < NUM_PLAYERS; i++)
@@ -92,35 +92,38 @@ int main(int argc, char *argv[])
                 
                 display_categories();
                 
-                printf("\n\n");
-                scanf("%s", category);
-                scanf("%d", value);
                 printf("\n");
+                scanf("%s", category);
+                scanf("%d", &value);
+                printf("You have chosen: %s %d.\n", category, value);
                 
-                if(already_answered(category, *value))
+                if(already_answered(category,value))
                 {
                     printf("Question has already been answered. Please choose another");
                     i--;
                 }else{
-                    display_question(category, *value);
-                    scanf("%s", response);                                  //Takes response
-                    
-                    //tokenize(response, token);                               //extracts answer from response
-                    correct = valid_answer(category,*value,token[2]);
-                    if(correct){
+                    display_question(category, value);
+                    scanf("%s",response);
+                    printf("Fail2");  
+                    tokenize(response, token); 
+                    printf("Fail2");                              //extracts answer from response
+                    correct = valid_answer(category, value, token[2]);
+                    if(correct)
+                    {
                         printf("Correct! You may now choose another question.\n\n");
-                        players[i].score += *value;
+                        players[i].score += value;
                         i--;
                     }
                     else{
                         printf("Unfortunately, that is incorrect, or you forgot to say \"What is/Who is\".\n\n");
                     }
-                    if ((questions[i].category == category) && (questions[i].value == *value)) 
+                    if ((questions[i].category == category) && (questions[i].value == value)) 
                     {
 						questions[i].answered = true;
 		            }
                     questions_left--;
-                    if(questions_left<=0){
+                    if(questions_left<=0)
+                    {
                         game_state = 0;
                     }
                 }                

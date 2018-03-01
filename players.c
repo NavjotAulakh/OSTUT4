@@ -13,7 +13,7 @@
 // Returns true if the player name matches one of the existing players
 bool player_exists(struct player *players, int num_players, char *name)
 {
-    for(int i = 0; i < 4; i++)
+    for(int i = 0; i < num_players; i++)
     {
         if(strcmp(players[i].name,name) == 0)
         {
