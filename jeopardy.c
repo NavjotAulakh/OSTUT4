@@ -34,14 +34,14 @@ void tokenize(char *input, char **tokens){
 
 // Displays the game results for each player, their name and final score, ranked from first to last place
 void show_results(struct player *players, int num_players){
-    for(int i = 0; i <= num_players; i++){
+    for(int i = 0; i < num_players; i++){
         printf("Name: %s\tScore:%d\n", players[i].name, players[i].score);
     }
 }
 
 int game_state;
 
-int main(int argc, char *argv[])
+int main(void)
 {
     // An array of 4 players, may need to be a pointer if you want it set dynamically
     struct player players[NUM_PLAYERS];
@@ -53,12 +53,12 @@ int main(int argc, char *argv[])
     printf("Welcome to Jeopardy! Please Enter your Names:\n");
     
     // initialize each of the players in the array
-    for(int i=0; i<4; i++)
+    for(int i = 0; i < 4; i++)
     {
         scanf("%s", players[i].name);
     	//strcpy(players[i].name, playerI);
         players[i].score=0;
-    	printf("Player: %s Score:%d\n",players[i].name,players[i].score);
+    	printf("Player: %s Score:%d\n", players[i].name, players[i].score);
     }
     // Display the game introduction and initialize the questions
     initialize_game();
@@ -80,10 +80,10 @@ int main(int argc, char *argv[])
         bool correct;
         char *category;  
         int value = 0;
-        char *response;
+        char response[BUFFER_LEN] = { 0 };
         
         category = (char *) calloc(BUFFER_LEN, sizeof(char));
-        response = (char *) calloc(BUFFER_LEN, sizeof(char));
+        
         while(questions_left > 0)
         {
             for(int i = 0; i < NUM_PLAYERS; i++)
@@ -99,15 +99,15 @@ int main(int argc, char *argv[])
                 
                 if(already_answered(category,value))
                 {
-                    printf("Question has already been answered. Please choose another");
+                    printf("Question has already been answered. Please choose another question\n");
                     i--;
-                }else{
+                }
+                else if(true)
+                {
                     display_question(category, value);
-                    scanf("%s",response);
-                    printf("Fail2");  
-                    tokenize(response, token); 
-                    printf("Fail2");                              //extracts answer from response
-                    correct = valid_answer(category, value, token[2]);
+                    scanf("%s", response);
+                    
+                    correct = valid_answer(category, value, response);
                     if(correct)
                     {
                         printf("Correct! You may now choose another question.\n\n");
@@ -117,16 +117,13 @@ int main(int argc, char *argv[])
                     else{
                         printf("Unfortunately, that is incorrect, or you forgot to say \"What is/Who is\".\n\n");
                     }
-                    if ((questions[i].category == category) && (questions[i].value == value)) 
-                    {
-						questions[i].answered = true;
-		            }
                     questions_left--;
                     if(questions_left<=0)
                     {
                         game_state = 0;
                     }
-                }                
+                } 
+                show_results(players,NUM_PLAYERS);               
             }
             free(category);
         }
