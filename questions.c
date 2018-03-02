@@ -1,7 +1,7 @@
 /*
  * Tutorial 4 Jeopardy Project for SOFE 3950U / CSCI 3020U: Operating Systems
  *
- * Copyright (C) 2015, <GROUP MEMBERS>
+ * Copyright (C) 2018, Navjot Aualakh, Abdi Ibrahim
  * All rights reserved.
  *
  */
@@ -114,21 +114,20 @@ void display_categories(void)
 			
 	}
 
-	
-	printf("   %s   |   %s   |   %s   \n", categories[0], categories[1], categories[2]);
-	printf("  -------------------------------------------------\n");
+	printf("   %s | %s | %s \n", categories[0], categories[1], categories[2]);
+	printf("  __________________________________________________\n");
 
-	printf("      %s      |     %s     |         %s   \n", v[0], v[1], v[2]);
-	printf("  -------------------------------------------------\n");
+	printf("      %s    |   %s     |       %s   \n", v[0], v[1], v[2]);
+	printf("  __________________________________________________\n");
 	
-	printf("      %s      |     %s     |         %s   \n", v[3], v[4], v[5]);
-	printf("  -------------------------------------------------\n");
+	printf("      %s    |   %s     |       %s   \n", v[3], v[4], v[5]);
+	printf("  __________________________________________________\n");
 	
-	printf("      %s      |     %s     |         %s   \n", v[6], v[7], v[8]);
-	printf("  -------------------------------------------------\n");
+	printf("      %s    |   %s     |       %s   \n", v[6], v[7], v[8]);
+	printf("  __________________________________________________\n");
 
-	printf("      %s      |     %s     |         %s   \n", v[9], v[10], v[11]);
-	printf("  -------------------------------------------------\n");
+	printf("      %s    |   %s     |       %s   \n", v[9], v[10], v[11]);
+	printf("  __________________________________________________\n");
 }
 
 // Displays the question for the category and dollar value
@@ -150,11 +149,12 @@ bool valid_answer(char *category, int value, char *answer)
     bool is_valid;
 
 	for (int i = 0; i < 12; i++) {
-		if ((questions[i].category == category) && (questions[i].value == value)) 
+		if ((strcmp(category, questions[i].category) == 0) && value == questions[i].value) 
         {
 			if (strcmp(questions[i].answer, answer) == 0) 
             {
 				is_valid = true;
+				questions[i].answered = true;
 			} else {
 				is_valid = false;
 			}
